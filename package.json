@@ -1,0 +1,23 @@
+{
+    "name": "simple-shop-api",
+    "version": "1.0.0",
+    "description": "Backend of ecommerce react app",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "nodemon index.js",
+        "start": "node index.js"
+    },
+    "author": "Aslemammad (@bagher.codes)",
+    "license": "ISC",
+    "dependencies": {
+        "dotenv": "^8.2.0",
+        "fastify": "^2.14.1",
+        "mongodb": "^3.5.7",
+        "mongoose": "^5.9.15",
+        "validator": "^13.0.0"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.4"
+    }
+}
