@@ -1,6 +1,7 @@
 const Boom = require('boom');
 const User = require('../database/User');
 const Product = require('../database/Product');
+const Cart = require('../database/Cart');
 
 exports.home = async (req, reply) => {
 	reply.send({
@@ -12,14 +13,15 @@ exports.register = async (req, reply) => {
 
 	try {
 		if (!user.username || !user.password) {
-			throw Boom.notAcceptable('Enter username and pwd.');
+			throw Boom.notAcceptable('Enter username and password.');
 		}
 		let foundUser = await User.findOne({ username: user.username });
 		if (foundUser) {
 			throw Boom.conflict('User already exists.');
 		}
 		const newUser = await User.create({ username: user.username, password: user.password });
-		if (newUser && newUser._id) {
+		const newCart = await Cart.create({ username: user.username });
+		if (newUser._id && newCart._id) {
 			return reply.status(200).send({
 				statusCode : reply.statusCode,
 				message    : 'Saved Successfully',
@@ -45,16 +47,40 @@ exports.login = async (req, reply) => {
 		if (!foundUser) {
 			throw Boom.conflict('User not found.');
 		}
-		if (!bcrypt.compareSync(user.pwd, foundUser.pwd)) {
+		if (!bcrypt.compareSync(user.password, foundUser.password)) {
 			throw Boom.notAcceptable('Bad password.');
 		}
 		return reply.status(200).send({
 			statusCode : reply.statusCode,
 			message    : 'User Login done successfully ',
 			_id        : foundUser._id,
-			username   : foundUser.un,
+			username   : foundUser.username,
 			token      : req.newToken
 		});
+	} catch (error) {
+		return reply.send(error);
+	}
+};
+exports.addProduct = async (req, reply) => {
+	const user = req.body;
+	console.log(req.verifiedToken.username);
+	try {
+		let newProduct = await Product.create({
+			name        : user.name,
+			price       : user.price,
+			description : user.description,
+			username    : req.verifiedToken.username
+		});
+		if (newProduct._id) {
+			return reply.status(200).send({
+				statusCode  : reply.statusCode,
+				message     : 'Product created. ',
+				_id         : newProduct._id,
+				name        : newProduct.name,
+				description : newProduct.description
+			});
+		}
+		throw Boom.badRequest('Product creating failed.');
 	} catch (error) {
 		return reply.send(error);
 	}
@@ -81,6 +107,61 @@ exports.getProduct = async (req, reply) => {
 			reply.status(200).send({
 				statusCode : reply.statusCode,
 				product
+			});
+		});
+	} catch (error) {
+		return reply.send(error);
+	}
+};
+
+exports.addToCart = async (req, reply) => {
+	const username = req.verifiedToken.username;
+	const params = req.params;
+
+	try {
+		let foundCart = await Cart.findOne({ username });
+		let removeDupArray = Array.from(
+			new Set([
+				...foundCart.products,
+				params.id
+			])
+		);
+		await Cart.findOneAndUpdate({ username: username }, { products: removeDupArray }, (error, cart) => {
+			if (!cart) throw Boom.badRequest('Failed to add.');
+			reply.status(200).send({
+				statusCode : reply.statusCode,
+				message    : 'Added to cart'
+			});
+		});
+	} catch (error) {
+		return reply.send(error);
+	}
+};
+exports.deleteFromCart = async (req, reply) => {
+	const username = req.verifiedToken.username;
+	const params = req.params;
+
+	try {
+		await Cart.findOneAndUpdate({ username }, { $pull: { products: params.id } }, (error, cart) => {
+			if (!cart) throw Boom.badRequest('Failed to delete.');
+			reply.status(200).send({
+				statusCode : reply.statusCode,
+				message    : 'Deleted successfully.'
+			});
+		});
+	} catch (error) {
+		return reply.send(error);
+	}
+};
+
+exports.getCart = async (req, reply) => {
+	const username = req.verifiedToken.username;
+	try {
+		await Cart.findOne({ username }, (error, cart) => {
+			if (!cart) throw Boom.badRequest('failed to load.');
+			reply.status(200).send({
+				statusCode : reply.statusCode,
+				items      : cart.products
 			});
 		});
 	} catch (error) {

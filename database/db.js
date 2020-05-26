@@ -6,7 +6,8 @@ async function dbConnector(fastify, options) {
 		const db = await mongoose.connect(url, {
 			useUnifiedTopology : true,
 			useCreateIndex     : true,
-			useNewUrlParser    : true
+			useNewUrlParser    : true,
+			useFindAndModify   : false
 		});
 		fastify.decorate('db', db);
 	} catch (err) {

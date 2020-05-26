@@ -24,6 +24,15 @@ const routes = [
 		handler    : handlers.login
 	},
 	{
+		method     : 'POST',
+		url        : '/api/add-product',
+		preHandler : [
+			authorization.verifyToken
+		],
+
+		handler    : handlers.addProduct
+	},
+	{
 		method     : 'GET',
 		url        : '/api/products',
 		preHandler : [
@@ -40,6 +49,33 @@ const routes = [
 		],
 
 		handler    : handlers.getProduct
+	},
+	{
+		method     : 'GET',
+		url        : '/api/cart',
+		preHandler : [
+			authorization.verifyToken
+		],
+
+		handler    : handlers.getCart
+	},
+	{
+		method     : 'POST',
+		url        : '/api/cart/:id',
+		preHandler : [
+			authorization.verifyToken
+		],
+
+		handler    : handlers.addToCart
+	},
+	{
+		method     : 'POST',
+		url        : '/api/remove-cart/:id',
+		preHandler : [
+			authorization.verifyToken
+		],
+
+		handler    : handlers.deleteFromCart
 	}
 ];
 
