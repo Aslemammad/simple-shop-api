@@ -9,8 +9,8 @@ const env = process.env; // environment variables
 const port = env.PORT || 3000;
 
 // plugins
-app.register(cors);
-app.register(db);
+app.register(cors); // cors activating
+app.register(db); // mongoose connecting
 
 // routes
 routes.map((route) => app.route(route));

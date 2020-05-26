@@ -11,20 +11,20 @@ exports.register = async (req, reply) => {
 	const user = req.body;
 
 	try {
-		if (!user.un || !user.pwd) {
-			throw Boom.notAcceptable('Enter un and pwd.');
+		if (!user.username || !user.password) {
+			throw Boom.notAcceptable('Enter username and pwd.');
 		}
-		let foundUser = await User.findOne({ un: user.un });
+		let foundUser = await User.findOne({ username: user.username });
 		if (foundUser) {
 			throw Boom.conflict('User already exists.');
 		}
-		const newUser = await User.create({ un: user.un, pwd: user.pwd });
+		const newUser = await User.create({ username: user.username, password: user.password });
 		if (newUser && newUser._id) {
 			return reply.status(200).send({
 				statusCode : reply.statusCode,
 				message    : 'Saved Successfully',
 				_id        : newUser._id,
-				un         : newUser.un,
+				username   : newUser.un,
 				token      : req.newToken
 			});
 		}
@@ -38,10 +38,10 @@ exports.login = async (req, reply) => {
 	const user = req.body;
 
 	try {
-		if (!user.un || !user.pwd) {
-			throw Boom.notAcceptable('Enter un and pwd.');
+		if (!user.username || !user.password) {
+			throw Boom.notAcceptable('Enter username and pwd.');
 		}
-		let foundUser = await User.findOne({ un: user.un });
+		let foundUser = await User.findOne({ username: user.username });
 		if (!foundUser) {
 			throw Boom.conflict('User not found.');
 		}
@@ -52,7 +52,7 @@ exports.login = async (req, reply) => {
 			statusCode : reply.statusCode,
 			message    : 'User Login done successfully ',
 			_id        : foundUser._id,
-			un         : foundUser.un,
+			username   : foundUser.un,
 			token      : req.newToken
 		});
 	} catch (error) {

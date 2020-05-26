@@ -11,6 +11,7 @@ async function dbConnector(fastify, options) {
 		fastify.decorate('db', db);
 	} catch (err) {
 		console.log(err);
+		process.exit(1);
 	}
 }
 module.exports = fastifyPlugin(dbConnector);

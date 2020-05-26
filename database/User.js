@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const uniqueValidator = require('mongoose-unique-validator');
 const schema = new mongoose.Schema(
 	{
-		un  : {
+		username : {
 			//username
 			type      : String,
 			required  : true,
@@ -12,7 +12,7 @@ const schema = new mongoose.Schema(
 			lowercase : true
 		},
 
-		pwd : {
+		password : {
 			//password
 			type     : String,
 			required : true,
@@ -25,7 +25,7 @@ const schema = new mongoose.Schema(
 );
 schema.plugin(uniqueValidator);
 schema.pre('save', async function(next) {
-	this.isModified('pwd') && (this.pwd = await bcrypt.hash(this.pwd, 8));
+	this.isModified('password') && (this.password = await bcrypt.hash(this.password, 8));
 	next();
 });
 

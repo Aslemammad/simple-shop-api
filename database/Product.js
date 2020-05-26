@@ -2,11 +2,10 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const schema = new mongoose.Schema(
 	{
-		nm          : {
+		name        : {
 			//name
 			type      : String,
 			required  : true,
-			unique    : true,
 			trim      : true,
 			lowercase : true
 		},
@@ -16,6 +15,11 @@ const schema = new mongoose.Schema(
 			trim     : true
 		},
 		description : {
+			type     : String,
+			required : true
+		},
+		username    : {
+			// username who own this product
 			type     : String,
 			required : true
 		}
