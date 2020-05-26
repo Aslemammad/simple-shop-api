@@ -22,8 +22,7 @@
         "mongoose": "^5.9.15",
         "mongoose-unique-validator": "^2.0.3",
         "pino": "^6.2.1",
-        "pino-colada": "^1.6.1",
-        "validator": "^13.0.0"
+        "pino-colada": "^1.6.1"
     },
     "devDependencies": {
         "nodemon": "^2.0.4"
