@@ -1,20 +1,22 @@
-require('dotenv').config();
+// require('dotenv').config();
 
 const fastify = require('fastify')({ logger: true });
-const cors = require('fastify-cors');
-const db = require('./database/db');
-const routes = require('./routes/routes');
+// const cors = require('fastify-cors');
+// const db = require('./database/db');
+// const routes = require('./routes/routes');
 const app = fastify;
+app.get('/', (req, reply) => {
+	reply.send({ message: 'ffsdf' });
+});
+// // const app = fastify;
+// const env = process.env; // environment variables
+// const port = env.PORT || 3000;
+// // plugins
+// app.register(cors); // cors activating
+// app.register(db); // mongoose connecting
 
-// const app = fastify;
-const env = process.env; // environment variables
-const port = env.PORT || 3000;
-// plugins
-app.register(cors); // cors activating
-app.register(db); // mongoose connecting
-
-// routes
-routes.map((route) => app.route(route));
+// // routes
+// routes.map((route) => app.route(route));
 
 const start = async () => {
 	try {
