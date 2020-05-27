@@ -26,8 +26,14 @@ exports.register = async (req, reply) => {
 			throw Boom.conflict('User already exists.');
 		}
 		const newUser = await User.create({ username: user.username, password: user.password });
-		const newCart = await Cart.create({ username: user.username });
-		if (newUser._id && newCart._id) {
+		let newCart;
+		let foundCart = await Product.findOne({ username: user.username });
+
+		if (!foundCart) {
+			newCart = await Cart.create({ username: user.username });
+		}
+
+		if (newUser._id && (newCart._id || foundCart._id)) {
 			return reply.status(200).send({
 				statusCode : reply.statusCode,
 				message    : 'Saved Successfully',

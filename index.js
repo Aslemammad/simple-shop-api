@@ -1,9 +1,6 @@
 require('dotenv').config();
 
 const fastify = require('fastify')({ logger: true });
-fastify.get('/', (req, reply) => {
-	reply.send('hello');
-});
 
 const cors = require('fastify-cors');
 const db = require('./database/db');
@@ -11,8 +8,7 @@ const routes = require('./routes/routes');
 
 const app = fastify;
 const env = process.env; // environment variables
-const port = env.PORT || 3000;
-
+const port = env.now ? 8080 : 4000;
 // plugins
 app.register(cors); // cors activating
 app.register(db); // mongoose connecting

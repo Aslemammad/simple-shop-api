@@ -3,6 +3,12 @@
     "builds": [{
         "src": "*.js",
         "use": "@now/node-server"
-    }]
+    }],
+    "build": {
+        "env": {
+            "SECRET": "SIMPLE_SHOP_API_SECRET",
+            "PORT": 8080
+        }
+    }
 
 }

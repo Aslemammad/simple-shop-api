@@ -25,7 +25,8 @@ const schema = new mongoose.Schema(
 		}
 	},
 	{
-		timestamps : true
+		timestamps : true,
+		autoIndex  : false
 	}
 );
 schema.plugin(uniqueValidator);

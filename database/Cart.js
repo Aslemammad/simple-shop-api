@@ -13,16 +13,10 @@ const schema = new mongoose.Schema(
 		}
 	},
 	{
-		timestamps : true
+		timestamps : true,
+		autoIndex  : false
 	}
 );
 schema.plugin(uniqueValidator);
-schema.pre('aggregate', async function(next) {
-	// if (this.isModified('products')) {
-	this.products = [];
-	// }
-
-	next();
-});
 
 module.exports = mongoose.model('Cart', schema);
