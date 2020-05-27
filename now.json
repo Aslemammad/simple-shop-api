@@ -6,8 +6,8 @@
     }],
     "build": {
         "env": {
-            "SECRET": "SIMPLE_SHOP_API_SECRET",
-            "PORT": 8080
+            "secret": "SIMPLE_SHOP_API_SECRET",
+            "PORT": "8080"
         }
     }
 
