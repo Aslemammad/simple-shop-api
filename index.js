@@ -8,7 +8,7 @@ const app = fastify;
 
 // const app = fastify;
 const env = process.env; // environment variables
-const port = env.PORT || 3000;
+const port = env.PORT || 5000;
 // plugins
 app.register(cors); // cors activating
 app.register(db); // mongoose connecting
