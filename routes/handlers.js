@@ -87,7 +87,17 @@ exports.addProduct = async (req, reply) => {
 };
 exports.getProducts = async (req, reply) => {
 	const user = req.body;
+	const params = req.params;
+
 	try {
+		if (params.text) {
+			return await Product.findOne({ $text: { $search: params.text } }, (err, products) => {
+				reply.status(200).send({
+					statusCode : reply.statusCode,
+					products
+				});
+			});
+		}
 		await Product.find({}, (error, products) => {
 			if (error) throw Boom.badRequest('Failed to load', error);
 			reply.status(200).send({

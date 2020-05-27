@@ -34,7 +34,7 @@ const routes = [
 	},
 	{
 		method     : 'GET',
-		url        : '/api/products',
+		url        : '/api/products/:text',
 		preHandler : [
 			authorization.verifyToken
 		],
