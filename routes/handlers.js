@@ -3,6 +3,12 @@ const User = require('../database/User');
 const Product = require('../database/Product');
 const Cart = require('../database/Cart');
 
+// additional functions
+
+const escapeRegex = (text) => text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+
+// route handlers
+
 exports.home = async (req, reply) => {
 	reply.send({
 		message : 'Welcome to simple-shop-api => https://github.com/Forsythe-jones/simple-shop-api'
@@ -87,11 +93,12 @@ exports.addProduct = async (req, reply) => {
 };
 exports.getProducts = async (req, reply) => {
 	const user = req.body;
-	const params = req.params;
+	const query = req.query;
 
 	try {
-		if (params.text) {
-			return await Product.findOne({ $text: { $search: params.text } }, (err, products) => {
+		if (query.search) {
+			const regexText = new RegExp(escapeRegex(query.search));
+			return await Product.find({ name: regexText }, (err, products) => {
 				reply.status(200).send({
 					statusCode : reply.statusCode,
 					products
