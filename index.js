@@ -1,5 +1,10 @@
 require('dotenv').config();
+
 const fastify = require('fastify')({ logger: true });
+fastify.get('/', (req, reply) => {
+	reply.send('hello');
+});
+
 const cors = require('fastify-cors');
 const db = require('./database/db');
 const routes = require('./routes/routes');
