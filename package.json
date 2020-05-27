@@ -24,6 +24,9 @@
         "pino-colada": "^1.6.1",
         "pino-pretty": "^4.0.0"
     },
+    "engines": {
+        "node": "14.x"
+    },
     "devDependencies": {
         "nodemon": "^2.0.4",
         "pm2": "^4.4.0"
