@@ -1,12 +1,12 @@
 require('dotenv').config();
 
 const fastify = require('fastify')({ logger: true });
-
 const cors = require('fastify-cors');
 const db = require('./database/db');
 const routes = require('./routes/routes');
-
 const app = fastify;
+
+// const app = fastify;
 const env = process.env; // environment variables
 const port = env.now ? 8080 : 4000;
 // plugins

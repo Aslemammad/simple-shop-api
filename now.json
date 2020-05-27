@@ -1,9 +1,12 @@
 {
     "version": 2,
-    "builds": [{
-        "src": "*.js",
-        "use": "@now/node-server"
-    }],
+    "builds": [
+        { "src": "package.json", "use": "@now/static-build" },
+        {
+            "src": "*.js",
+            "use": "@now/node"
+        }
+    ],
     "build": {
         "env": {
             "secret": "SIMPLE_SHOP_API_SECRET",
